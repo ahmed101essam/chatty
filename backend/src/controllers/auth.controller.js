@@ -1,6 +1,7 @@
 import { generateToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -93,4 +94,42 @@ export const logout = async (req, res) => {
   res.status(200).json({
     message: "Logged out successfully",
   });
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const { profilePic } = req.body;
+
+    if (!profilePic) {
+      return res.status(400).json({ message: "profilePic is required" });
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+      folder: "chatty/profile_pics",
+      overwrite: true,
+      resource_type: "image",
+      transformation: [{ width: 500, height: 500, crop: "limit" }],
+    });
+
+    if (!uploadResponse || !uploadResponse.secure_url) {
+      return res
+        .status(500)
+        .json({ message: "Could not upload profile image" });
+    }
+
+    req.user.profilePic = uploadResponse.secure_url;
+    await req.user.save();
+
+    res.status(200).json({
+      message: "Profile picture updated successfully",
+      profilePic: req.user.profilePic,
+    });
+  } catch (err) {
+    console.error("Error in updateProfile controller:", err);
+    res.status(500).json({ message: "Internal Server Error." });
+  }
 };
