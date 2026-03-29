@@ -10,9 +10,10 @@ export const ENV = {
   RESEND_API_KEY:
     process.env.RESEND_API_KEY || "re_3KkqrdZR_LHeHjTVef4gTJrmWY2GKyWEE",
   EMAIL_FROM: process.env.EMAIL_FROM || "onboarding@resend.dev",
-  EMAIL_FROM_NAME: process.env.EMAIL_FROM_NAME || "Ahmed Shehab",
-  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || "dsafqgv3j",
-  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || "588166995644832",
-  CLOUDINARY_API_SECRET:
-    process.env.CLOUDINARY_API_SECRET || "LvWFi3QZkushAczYN5tmFvVYE-0",
+  EMAIL_FROM_NAME: process.env.EMAIL_FROM_NAME,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  ARCJET_KEY: process.env.ARCJET_KEY,
+  ARCJET_ENV: process.env.ARCJET_ENV,
 };
